@@ -23,4 +23,27 @@
 
 - 01/10
 
-## import/export
+# 컴포넌트 만들기
+
+![Alt text](image.png)
+
+- 파일생성(파일명 두단어 조합으로 안하면 오류가 뜰 수 있음)
+
+```
+<template>
+  <div>방팔아요!</div>
+</template>
+<script>
+export default {
+  name: "RoomItem",
+};
+</script>
+<style></style>
+```
+
+- 호출하는 페이지에서 import/component등록/사용 (3가지 다 해야지 vue가 뭐라안함)
+
+```
+<RoomItem />
+components: { ModalItem, RoomItem },
+```

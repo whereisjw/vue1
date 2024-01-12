@@ -8,7 +8,7 @@
   <div class="discount">
     <h4>지금 결제하면 20% 할인</h4>
   </div>
-
+  <RoomItem />
   <div v-for="(v, i) in 원룸들" :key="i">
     <img class="room_img" :src="v.image" alt="" />
     <h4
@@ -26,6 +26,7 @@
 <script>
 import ModalItem from "./Modal.vue";
 import roomData from "./oneroom.js";
+import RoomItem from "./RoomItem.vue";
 export default {
   name: "App",
   data() {
@@ -46,7 +47,7 @@ export default {
       this.신고수[a] = this.신고수[a] + 1;
     },
   },
-  components: { ModalItem },
+  components: { ModalItem, RoomItem },
 };
 </script>
 
