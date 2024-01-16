@@ -1,57 +1,95 @@
 <template>
-  <ModalItem :원룸들="원룸들" :누른거="누른거" :모달창열렸니="모달창열렸니" />
+  <ModalItem
+    v-on:close="모달창열렸니 = false"
+    :원룸들="원룸들"
+    :누른거="누른거"
+    :모달창열렸니="모달창열렸니" />
 
   <div class="menu">
     <a v-for="(value, index) in menu" :key="index">{{ value }}</a>
   </div>
 
-  <div class="discount">
+  <div class="discount" v-if="showDiscount">
     <h4>지금 결제하면 20% 할인</h4>
   </div>
-  <RoomItem />
-  <div v-for="(v, i) in 원룸들" :key="i">
-    <img class="room_img" :src="v.image" alt="" />
-    <h4
-      v-on:click="
-        모달창열렸니 = true;
-        누른거 = i;
-      ">
-      {{ v.title }}
-    </h4>
-    <p>{{ v.price }}원</p>
-    <button v-on:click="increase(0)">허위매물신고버튼</button>
-    <span>신고수 : {{ 신고수[0] }}</span>
-  </div>
+  <button v-on:click="priceSort">가격순정렬</button>
+  <button v-on:click="reversePriceSort">가격역순정렬</button>
+  <button v-on:click="ganadaFn">가나다순정렬</button>
+  <button v-on:click="sortBack">되돌리기</button>
+  <RoomItem
+    v-on:openModal="모달창열렸니 = true"
+    v-on:changePress="누른거 = i"
+    :누른거="누른거"
+    :원룸들="원룸들"
+    :모달창열렸니="모달창열렸니"
+    :신고수="신고수" />
 </template>
 <script>
 import ModalItem from "./Modal.vue";
 import roomData from "./oneroom.js";
 import RoomItem from "./RoomItem.vue";
+
 export default {
   name: "App",
   data() {
     return {
+      showDiscount: false,
+      원룸들오리지날: [...roomData],
       누른거: 0,
       원룸들: roomData,
       모달창열렸니: false,
       신고수: [0, 0, 0],
       price1: 60,
       price2: 70,
-
       menu: ["홈", "상품", "상세"],
       products: ["역삼동원룸", "천호동원룸", "마포구원룸"],
     };
   },
   methods: {
+    reversePriceSort() {
+      this.원룸들.sort(function (a, b) {
+        return b.price - a.price;
+      });
+    },
+    sortBack() {
+      this.원룸들 = [...this.원룸들오리지날];
+    },
+    priceSort() {
+      this.원룸들.sort(function (a, b) {
+        return a.price - b.price;
+      });
+    },
     increase(a) {
       this.신고수[a] = this.신고수[a] + 1;
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.showDiscount = true;
+    }, 2000);
   },
   components: { ModalItem, RoomItem },
 };
 </script>
 
 <style>
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: all 1s;
+}
+.fade-enter-to {
+  opacity: 1;
+}
+
+.start {
+  opacity: 0;
+  transition: all 1s linear;
+}
+.end {
+  opacity: 1;
+}
 body {
   margin: 0;
 }

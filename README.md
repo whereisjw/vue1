@@ -47,3 +47,63 @@ export default {
 <RoomItem />
 components: { ModalItem, RoomItem },
 ```
+
+# v-model
+
+```
+<input type="number" v-model="month" />
+<input type="number"v-on:input="month = $event.target.value" />
+```
+
+# watcher
+
+```
+  watch: {
+    month(a, b) {
+      if (a > 10) this.month = 1;
+    },
+  },
+```
+
+# Transition 애니메이션주기
+
+```
+ <Transition name="fade">
+    <div class="black-bg" v-if="모달창열렸니">
+      <div class="white-bg">
+        <h4>{{ 원룸들[누른거].title }}</h4>
+        <h3>{{ 원룸들[누른거].content }}</h3>
+        <input type="number" v-model="month" />
+        개월
+        <h3>{{ month }}개월 총 {{ 원룸들[누른거].price * month }}원</h3>
+
+        <button v-on:click="$emit('close')">닫기</button>
+      </div>
+    </div>
+  </Transition>
+
+```
+
+```
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: all 1s;
+}
+.fade-enter-to {
+  opacity: 1;
+}
+```
+
+# 라이프싸이클훅
+
+```
+  mounted() {
+    setTimeout(() => {
+      this.showDiscount = true;
+    }, 2000);
+  },
+```
+
+- 2초후에 showdiscount라는 data가 true 가 됨
